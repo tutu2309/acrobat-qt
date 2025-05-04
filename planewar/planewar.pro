@@ -27,12 +27,18 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainscene.cpp \
-    map.cpp
+    map.cpp \
+    maimai.cpp \
+    ball.cpp \
+    popcorn.cpp
 
 HEADERS += \
         mainscene.h \
     config.h \
-    map.h
+    map.h \
+    maimai.h \
+    ball.h \
+    popcorn.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -40,4 +46,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resource.qrc
+    resource.qrc \
+    resourse2.qrc

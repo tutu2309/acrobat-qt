@@ -5,6 +5,8 @@
 //定时器
 #include<QTimer>
 #include "map.h"
+#include "maimai.h"
+#include "ball.h"
 
 class Mainscene : public QWidget
 {
@@ -28,6 +30,16 @@ public:
 
     //设置背景
     map map;
+
+    //设置麦麦
+    maimai m_maimai;
+
+    //拖拽鼠标移动麦麦，捕获鼠标信息
+    void mouseMoveEvent(QMouseEvent *);
+
+    //设置红球
+    ball tempball;
+
 
     //背景定时器
     QTimer timer;

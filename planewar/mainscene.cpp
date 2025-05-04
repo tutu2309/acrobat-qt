@@ -2,6 +2,7 @@
 #include "config.h"
 #include <QIcon>
 #include <QPainter>
+#include <QMouseEvent>
 
 
 Mainscene::Mainscene(QWidget *parent)
@@ -53,13 +54,68 @@ void Mainscene::updatepos()
 {
     //更新坐标
     map.mapPosition();
+
+    //发射红球
+    m_maimai.shootball();
+
+    //更新坐标
+    for (int i=0;i<ballnum;i++)
+    {
+        if(m_maimai.m_balls[i].b_free==false)
+        {
+            m_maimai.m_balls[i].position();
+        }
+    }
+
+
+
+
 }
 
 void Mainscene::paintEvent(QPaintEvent *)
 {
-    QPainter painter(this);
+ QPainter painter(this);
 
-    //显示地图
-    painter.drawPixmap(0, map.map1_posy,map.map1);
-    painter.drawPixmap(0, map.map2_posy,map.map2);
+ //显示地图
+ painter.drawPixmap(0, map.map1_posy,map.map1);
+ painter.drawPixmap(0, map.map2_posy,map.map2);
+
+ //显示麦麦
+ painter.drawPixmap(m_maimai.m_x,m_maimai.m_y,m_maimai.m_maimai);
+
+ //显示红球
+ for (int i=0;i<ballnum;i++)
+ {
+     if(m_maimai.m_balls[i].b_free==false)
+     {
+   painter.drawPixmap(m_maimai.m_balls[i].b_x,m_maimai.m_balls[i].b_y,m_maimai.m_balls[i].pball );
+     }
+ }
+
+}
+
+void Mainscene::mouseMoveEvent(QMouseEvent * event)
+{
+int x= event->x()-m_maimai.m_rect.width()*0.5;
+int y= event->y()-m_maimai.m_rect.height()*0.5;
+
+//防止飞机出边界，设置边界检测
+if(x<=0)
+{
+  x=0;
+}
+if(x>=game_width-m_maimai.m_rect.width())
+{
+  x=game_width-m_maimai.m_rect.width();
+}
+if(y<=0)
+{
+   y=0;
+}
+if(y>=game_height-m_maimai.m_rect.height())
+{
+   y=game_height-m_maimai.m_rect.height();
+}
+
+m_maimai.position(x,y);
 }

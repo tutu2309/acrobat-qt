@@ -7,5 +7,9 @@
         <file>resource/plane.png</file>
         <file>resource/plane2.png</file>
         <file>resource/start.png</file>
+        <file>resource/ball.png</file>
+        <file>resource/popcorn.png</file>
+        <file>resource/corn.png</file>
+        <file>resource/maimai.png</file>
     </qresource>
 </RCC>
