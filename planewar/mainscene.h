@@ -7,6 +7,9 @@
 #include "map.h"
 #include "maimai.h"
 #include "ball.h"
+#include "popcorn.h"
+#include "bomb.h"
+
 
 class Mainscene : public QWidget
 {
@@ -40,6 +43,20 @@ public:
     //设置红球
     ball tempball;
 
+    //爆米花出场
+    void popcornappear();
+
+    //爆米花数组
+    popcorn p_popcorns[popcornnum];
+
+    //爆米花出场时间间隔
+    int p_recorder;
+
+    //检测碰撞
+    void collision();
+
+    //爆炸数组
+    bomb bombs[bombnum];
 
     //背景定时器
     QTimer timer;

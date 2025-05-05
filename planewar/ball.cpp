@@ -13,7 +13,7 @@ ball::ball()
    b_free =true;
 
    //红球速度
-   b_speed =5;
+   b_speed =7;
 
    //红球边框范围
    b_rect.setWidth(pball.width());

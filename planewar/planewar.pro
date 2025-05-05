@@ -30,7 +30,8 @@ SOURCES += \
     map.cpp \
     maimai.cpp \
     ball.cpp \
-    popcorn.cpp
+    popcorn.cpp \
+    bomb.cpp
 
 HEADERS += \
         mainscene.h \
@@ -38,7 +39,8 @@ HEADERS += \
     map.h \
     maimai.h \
     ball.h \
-    popcorn.h
+    popcorn.h \
+    bomb.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

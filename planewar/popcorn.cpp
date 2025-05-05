@@ -33,5 +33,9 @@ void popcorn::position()
     p_y+=p_speed;
     p_rect.moveTo(p_x,p_y);
 
-    //若爆米花超出下界则重置
+    //若爆米花超出下界则重置,让其完全飞出去
+    if(p_y >= game_height + p_rect.height())
+    {
+        p_free = true;
+    }
 }

@@ -3,6 +3,8 @@
 #include <QIcon>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QWidget>
+#include <ctime>
 
 
 Mainscene::Mainscene(QWidget *parent)
@@ -22,8 +24,6 @@ Mainscene::~Mainscene()
 
 void Mainscene::initscene()
 {
-
-
     //设置游戏场景窗口宽度高度
     setFixedSize(game_width,game_height);
 
@@ -32,6 +32,12 @@ void Mainscene::initscene()
 
    //设置定时器
     timer.setInterval(game_rate);
+
+    //初始化爆米花出场间隔
+    p_recorder=0;
+
+    //随机数种子
+    srand((unsigned int)time(NULL));
 
 
 }
@@ -43,10 +49,15 @@ void Mainscene::play()
 
     //接受定时器信号条
     connect(&timer , &QTimer::timeout,[=](){
+        //爆米花出场
+        popcornappear();
 
         //更新坐标并显示
         updatepos();
         update();
+
+        //碰撞检测
+        collision();
            } );
 }
 
@@ -67,6 +78,23 @@ void Mainscene::updatepos()
         }
     }
 
+   //爆米花出场
+    for (int i=0;i<popcornnum;i++)
+    {
+       if(p_popcorns[i].p_free==false)
+       {
+           p_popcorns[i].position();
+       }
+    }
+
+    //计算爆炸照片
+    for (int i =0;i<bombnum;i++)
+    {
+        if(bombs[i].b_free==false)
+        {
+            bombs[i].information();
+        }
+    }
 
 
 
@@ -89,6 +117,25 @@ void Mainscene::paintEvent(QPaintEvent *)
      if(m_maimai.m_balls[i].b_free==false)
      {
    painter.drawPixmap(m_maimai.m_balls[i].b_x,m_maimai.m_balls[i].b_y,m_maimai.m_balls[i].pball );
+     }
+ }
+
+  //显示爆米花
+ for (int i=0;i<popcornnum;i++)
+ {
+    if(p_popcorns[i].p_free==false)
+    {
+        painter.drawPixmap(p_popcorns[i].p_x,p_popcorns[i].p_y,p_popcorns[i].p_popcorn);
+    }
+ }
+
+ //显示爆炸
+ for (int i =0;i<bombnum;i++)
+ {
+     if(bombs[i].b_free==false)
+     {
+         painter.drawPixmap(bombs[i].b_x,bombs[i].b_y
+                            ,bombs[i].b_arr[bombs[i].b_index]);
      }
  }
 
@@ -118,4 +165,66 @@ if(y>=game_height-m_maimai.m_rect.height())
 }
 
 m_maimai.position(x,y);
+}
+//爆米花
+void Mainscene::popcornappear()
+{
+    p_recorder++;
+    if(p_recorder<30)
+    {
+            return;
+    }
+      p_recorder=0;
+            for (int i =0;i<popcornnum;i++)
+    {
+        if(p_popcorns[i].p_free)
+    {
+        p_popcorns[i].p_free =false;
+
+        p_popcorns[i].p_x=rand()%(game_width - p_popcorns[i].p_rect.width());
+        p_popcorns[i].p_y=-p_popcorns[i].p_rect.height();
+        break;
+    }
+  }
+}
+
+void Mainscene::collision()
+{
+  //遍历所有非空闲爆米花
+    for (int i=0;i<popcornnum;i++)
+    {
+        //如果空闲继续循环寻找非空闲
+        if(p_popcorns[i].p_free)
+        {
+        continue;
+        }
+   //红球
+        for (int j =0;j<ballnum;j++)
+        {
+            if(m_maimai.m_balls[j].b_free)
+            {
+                continue;
+            }
+
+            //红球爆米花相碰
+            if(p_popcorns[i].p_rect.intersects(m_maimai.m_balls[j].b_rect))
+            {
+                p_popcorns[i].p_free=true;
+                m_maimai.m_balls[j].b_free=true;
+
+                //进行爆炸
+                for (int k=0;k<bombnum;k++)
+                {
+                    if(bombs[k].b_free)
+                    {
+                        bombs[k].b_free=false;
+                        //更新爆炸坐标
+                        bombs[k].b_x=p_popcorns[i].p_x;
+                        bombs[k].b_y=p_popcorns[i].p_y;
+                        break;
+                }
+            }
+        }
+    }
+}
 }
