@@ -9,6 +9,7 @@
 #include "ball.h"
 #include "popcorn.h"
 #include "bomb.h"
+#include <QPushButton>
 
 
 class Mainscene : public QWidget
@@ -60,6 +61,12 @@ public:
 
     //背景定时器
     QTimer timer;
+
+private:
+    QPushButton *startButton;
+    // 添加函数声明
+        private slots:
+            void onStartGameClicked();
 };
 
 #endif // MAINSCENE_H

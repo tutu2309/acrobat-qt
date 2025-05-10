@@ -5,21 +5,41 @@
 #include <QMouseEvent>
 #include <QWidget>
 #include <ctime>
+#include <QMessageBox>
+
 
 
 Mainscene::Mainscene(QWidget *parent)
     : QWidget(parent)
 {
-    //对初始化游戏场景的调用
-    initscene();
-    //调用启动游戏
-    play();
+
+    startButton = new QPushButton("开始游戏", this);
+
+
+        startButton->move(100, 100);
+
+        setStyleSheet("background-image: url(:/new/prefix1/resource/background3.jpg);");
+        setStyleSheet("background-image: url(:/new/prefix1/resource/background3.jpg); background - repeat: no - repeat; background - size: cover;");
+
+        connect(startButton, &QPushButton::clicked, this, &Mainscene::onStartGameClicked);
+    }
+
+    void Mainscene::onStartGameClicked()
+    {
+        QMessageBox::information(this, "提示", "游戏即将开始！");
+        startButton->hide(); // 隐藏“开始游戏”按钮
+        // 实际开始游戏的逻辑代码
+
+        //对初始化游戏场景的调用
+            initscene();
+            //调用启动游戏
+            play();
 
 }
 
 Mainscene::~Mainscene()
 {
-
+ delete startButton;
 }
 
 void Mainscene::initscene()

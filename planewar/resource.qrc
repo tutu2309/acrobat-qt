@@ -11,5 +11,6 @@
         <file>resource/popcorn.png</file>
         <file>resource/corn.png</file>
         <file>resource/maimai.png</file>
+        <file>resource/background3.jpg</file>
     </qresource>
 </RCC>
