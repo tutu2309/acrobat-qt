@@ -16,10 +16,11 @@ Mainscene::Mainscene(QWidget *parent)
     startButton = new QPushButton("开始游戏", this);
 
 
-        startButton->move(100, 100);
+      startButton->move((game_width - startButton->width()) / 2, (game_height - startButton->height()) / 2);
+      startButton->setFixedSize(200, 50); // 设置按钮宽度为200，高度为50
 
-        setStyleSheet("background-image: url(:/new/prefix1/resource/background3.jpg);");
-        setStyleSheet("background-image: url(:/new/prefix1/resource/background3.jpg); background - repeat: no - repeat; background - size: cover;");
+        setStyleSheet(":/new/prefix1/resource/background3.jpg");
+        setStyleSheet(":/new/prefix1/resource/background3.jpg; background - repeat: no - repeat; background - size: cover;");
 
         connect(startButton, &QPushButton::clicked, this, &Mainscene::onStartGameClicked);
     }
